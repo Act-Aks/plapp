@@ -1,0 +1,66 @@
+name: Bump Version
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+      - ".github/workflows/version-bump.yml"
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    name: Bump Version
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: "bun"
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Get current version
+        id: current_version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./app.json').expo.version")
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+
+      - name: Bump version
+        id: new_version
+        run: |
+          CURRENT_VERSION=${{ steps.current_version.outputs.current_version }}
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          PATCH_VERSION=$((VERSION_PARTS[2] + 1))
+          NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH_VERSION"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Update app.json version
+        run: |
+          NEW_VERSION=${{ steps.new_version.outputs.new_version }}
+          node -e "
+            const fs = require('fs');
+            const appJson = JSON.parse(fs.readFileSync('./app.json', 'utf8'));
+            appJson.expo.version = '$NEW_VERSION';
+            fs.writeFileSync('./app.json', JSON.stringify(appJson, null, 2));
+          "
+
+      - name: Commit and push version bump
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add app.json
+          git commit -m "Bump version to ${{ steps.new_version.outputs.new_version }}"
+          git push
