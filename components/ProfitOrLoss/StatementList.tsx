@@ -14,9 +14,10 @@ export function StatementList() {
     hydrate();
   }, [hydrate]);
 
-  // Sort statements by timestamp in descending order (newest first)
+  // Sort statements by selling time in descending order (newest first)
   const sortedStatements = [...statements].sort(
-    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    (a, b) =>
+      new Date(b.sellingTime).getTime() - new Date(a.sellingTime).getTime()
   );
 
   return (

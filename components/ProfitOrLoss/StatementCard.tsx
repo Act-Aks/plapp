@@ -119,8 +119,16 @@ export function StatementCard({ item, onDelete }: StatementCardProps) {
               <Text style={styles.value}>{item.quantity}</Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.label}>Date & Time:</Text>
-              <Text style={styles.value}>{formatDateTime(item.timestamp)}</Text>
+              <Text style={styles.label}>Buying Time:</Text>
+              <Text style={styles.value}>
+                {formatDateTime(item.buyingTime)}
+              </Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.label}>Selling Time:</Text>
+              <Text style={styles.value}>
+                {formatDateTime(item.sellingTime)}
+              </Text>
             </View>
           </View>
 

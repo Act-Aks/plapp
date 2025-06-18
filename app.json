@@ -17,6 +17,7 @@
         "backgroundColor": "#000"
       },
       "edgeToEdgeEnabled": true,
+      "softwareKeyboardLayoutMode": "pan",
       "package": "com.actaks.plapp"
     },
     "web": {

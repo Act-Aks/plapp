@@ -14,12 +14,13 @@ export const defaultAnimations = {
 };
 
 export const COLORS = {
-  primary: "#2563EB", // Vibrant blue
+  primary: "#2563EB",
   primaryLight: "#3B82F6",
-  success: "#059669", // Emerald green
-  danger: "#DC2626", // Vibrant red
-  background: "#F8FAFC", // Light blue-gray
-  text: "#1E293B", // Dark blue-gray
-  textLight: "#64748B", // Medium blue-gray
+  success: "#059669",
+  danger: "#DC2626",
+  background: "#F8FAFC",
+  text: "#1E293B",
+  textLight: "#64748B",
   white: "#FFFFFF",
-};
+  warning: "#F59E0B",
+} as const;

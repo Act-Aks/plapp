@@ -1,6 +1,6 @@
 import { Plus, X } from "lucide-react-native";
 import React, { useState } from "react";
-import { StyleSheet, Text } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, Text } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withSpring,
@@ -54,7 +54,12 @@ export function FormToggle() {
           )}
         </Animated.View>
       </AnimatedPressable>
-      {isFormVisible && <StatementForm onClose={onToggle} />}
+
+      {isFormVisible && (
+        <KeyboardAvoidingView>
+          <StatementForm onClose={onToggle} />
+        </KeyboardAvoidingView>
+      )}
     </Animated.View>
   );
 }

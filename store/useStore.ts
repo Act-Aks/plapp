@@ -8,7 +8,8 @@ export interface StockStatement {
   buyingPrice: number;
   sellingPrice: number;
   quantity: number;
-  timestamp: string;
+  buyingTime: string;
+  sellingTime: string;
   profitLoss: number;
 }
 
